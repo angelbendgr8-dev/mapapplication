@@ -1,7 +1,7 @@
 import { Box, Flex, IconButton, Text, useDisclosure } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import mapboxgl, { Map } from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl, { Map } from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import _ from "lodash";
 import moment from "moment";
 import { BsFillInfoCircleFill } from "react-icons/bs";
@@ -103,7 +103,7 @@ function InitialFocus({ open, onClose, weather, name }) {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      <Tr>?
+                      <Tr>
                         <Td>inches</Td>
                         
                         <Td isNumeric>25.4</Td>
