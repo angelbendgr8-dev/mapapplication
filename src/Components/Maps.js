@@ -94,7 +94,7 @@ function InitialFocus({ open, onClose, weather, name }) {
               <TableContainer>
                   <Table variant="simple">
                     <TableCaption>
-                      Today
+                      Tomorrow
                     </TableCaption>
                     <Thead>
                       <Tr>
@@ -103,7 +103,7 @@ function InitialFocus({ open, onClose, weather, name }) {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      <Tr>
+                      <Tr>?
                         <Td>inches</Td>
                         
                         <Td isNumeric>25.4</Td>
@@ -179,7 +179,7 @@ export default function Maps({ item }) {
         open={isOpen}
         onClose={onClose}
         weather={weatherData}
-        name={item.name}
+        name={item?.name}
       />
       {_.isEmpty(item) ? (
         <Box>
