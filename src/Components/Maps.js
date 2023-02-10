@@ -1,13 +1,5 @@
-import {
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Flex, IconButton, Text, useDisclosure } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { CityItemProps } from "./Layouts/Main";
 
 import mapboxgl, { Map } from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import _ from "lodash";
@@ -18,9 +10,19 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
+} from "@chakra-ui/react";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
 } from "@chakra-ui/react";
 
 mapboxgl.accessToken =
@@ -29,7 +31,7 @@ mapboxgl.accessToken =
 //     item: CityItemProps | {};
 // }
 
-function InitialFocus({ open, onClose, weather }) {
+function InitialFocus({ open, onClose, weather, name }) {
   // const { isOpen, onOpen, onClose } = useDisclosure();
   console.log(weather);
   const initialRef = React.useRef(null);
@@ -50,18 +52,75 @@ function InitialFocus({ open, onClose, weather }) {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+          <ModalHeader>{name} weather</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <Text>Hello</Text>
+            <Flex
+              flexDirection={"column"}
+              justifyItems="center"
+              alignItems="center"
+            >
+              <Box borderRadius={5} bg="aliceblue" m="4" p="5">
+               
+                <TableContainer>
+                  <Table variant="simple">
+                    <TableCaption>
+                      Today
+                    </TableCaption>
+                    <Thead>
+                      <Tr>
+                        <Th>title</Th>
+                        <Th>value</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      <Tr>
+                        <Td>inches</Td>
+                        
+                        <Td isNumeric>25.4</Td>
+                      </Tr>
+                      <Tr>
+                        <Td>feet</Td>
+                       
+                        <Td isNumeric>30.48</Td>
+                      </Tr>
+                     
+                    </Tbody>
+                    
+                  </Table>
+                </TableContainer>
+              </Box>
+              <Box borderRadius={5} bg='darkcyan' m="4" p="5">
+              <TableContainer>
+                  <Table variant="simple">
+                    <TableCaption>
+                      Today
+                    </TableCaption>
+                    <Thead>
+                      <Tr>
+                        <Th>title</Th>
+                        <Th>value</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      <Tr>
+                        <Td>inches</Td>
+                        
+                        <Td isNumeric>25.4</Td>
+                      </Tr>
+                      <Tr>
+                        <Td>feet</Td>
+                       
+                        <Td isNumeric>30.48</Td>
+                      </Tr>
+                     
+                    </Tbody>
+                    
+                  </Table>
+                </TableContainer>
+              </Box>
+            </Flex>
           </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
@@ -116,7 +175,12 @@ export default function Maps({ item }) {
 
   return (
     <Box>
-      <InitialFocus open={isOpen} onClose={onClose} weather={weatherData} />
+      <InitialFocus
+        open={isOpen}
+        onClose={onClose}
+        weather={weatherData}
+        name={item.name}
+      />
       {_.isEmpty(item) ? (
         <Box>
           {/* <Button onClick={onOpen} colorScheme="blue">
