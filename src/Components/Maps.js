@@ -145,6 +145,9 @@ export default function Maps({ item }) {
 
       zoom: zoom,
     });
+    const marker = new mapboxgl.Marker()
+    .setLngLat([lng,lat])
+    .addTo(map.current);
     // console.log(mapContainer.current)
   });
   const getWeather = useCallback(async (latitude, longitude) => {
@@ -167,6 +170,7 @@ export default function Maps({ item }) {
     if (item) {
       setLng(item.lng);
       setLat(item.lat);
+     
       getWeather(item.lat, item.lng);
     }
   }, [item, getWeather]);
