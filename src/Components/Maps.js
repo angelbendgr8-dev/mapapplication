@@ -31,7 +31,7 @@ mapboxgl.accessToken =
 //     item: CityItemProps | {};
 // }
 
-function InitialFocus({ open, onClose, weather, name }) {
+function WeatherModal({ open, onClose, weather, name }) {
   // const { isOpen, onOpen, onClose } = useDisclosure();
   console.log(weather);
   const initialRef = React.useRef(null);
@@ -45,7 +45,6 @@ function InitialFocus({ open, onClose, weather, name }) {
       setTomorrow(weather[1]);
     }
   }, [weather]);
-  console.log(today);
   return (
     <>
       {/* <Button onClick={onOpen}>Open Modal</Button>
@@ -175,7 +174,7 @@ export default function Maps({ item }) {
 
   return (
     <Box>
-      <InitialFocus
+      <WeatherModal
         open={isOpen}
         onClose={onClose}
         weather={weatherData}
