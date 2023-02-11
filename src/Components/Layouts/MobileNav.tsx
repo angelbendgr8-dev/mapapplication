@@ -2,16 +2,12 @@ import {
   Box,
   Flex,
   FlexProps,
-  HStack,
+ 
   IconButton,
-  Input,
-  MenuDivider,
-  MenuItem,
-  Text,
+  
   useColorModeValue,
 } from "@chakra-ui/react";
-import { FormEvent } from "react";
-import { FiBell, FiMenu } from "react-icons/fi";
+import {  FiMenu } from "react-icons/fi";
 import Search from "../SearchComponent";
 
 interface MobileProps extends FlexProps {
@@ -20,9 +16,7 @@ interface MobileProps extends FlexProps {
 }
 
 const MobileNav = ({ onFilter, onOpen, ...rest }: MobileProps) => {
-  const handleChange = (e: FormEvent<HTMLInputElement>) => {
-    onFilter(e.currentTarget.value);
-  };
+ 
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -51,14 +45,7 @@ const MobileNav = ({ onFilter, onOpen, ...rest }: MobileProps) => {
         <Search onFilter={onFilter} />
       </Box>
 
-      <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-        />
-      </HStack>
+      
     </Flex>
   );
 };

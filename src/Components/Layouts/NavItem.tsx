@@ -1,16 +1,13 @@
 import React, { ReactText } from "react";
-import { Flex, Link,Icon, FlexProps } from "@chakra-ui/react";
+import { Flex, Link, FlexProps } from "@chakra-ui/react";
 
-import { IconType } from 'react-icons';
 import { CityItemProps } from "./Main";
 
 interface NavItemProps extends FlexProps {
     children: ReactText;
     item: CityItemProps,
 }
-  const select = () => {
-    console.log()
-  }
+ 
   const NavItem = ({ item, children, ...rest }: NavItemProps) => {
     return (
       <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>

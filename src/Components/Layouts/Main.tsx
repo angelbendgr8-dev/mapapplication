@@ -1,35 +1,20 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import {
-  IconButton,
-  Avatar,
+ 
   Box,
   CloseButton,
   Flex,
-  HStack,
-  VStack,
-  Icon,
+  
   useColorModeValue,
-  Link,
+  
   Drawer,
   DrawerContent,
   Text,
   useDisclosure,
   BoxProps,
-  FlexProps,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
+  
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-} from "react-icons/fi";
-import { IconType } from "react-icons";
+
 import MobileNav from "./MobileNav";
 import NavItem from "./NavItem";
 import data from "../../cities.json";
@@ -54,6 +39,7 @@ export interface CityItemProps {
 export default function Main() {
   const [cities, setCities] = useState(Array<CityItemProps>);
   const [filtered, setFiltered] = useState(Array<CityItemProps>);
+  
   const [selectedCity, setSelectedCity] = useState<CityItemProps>()
   useEffect(() => {
     const temp = _.sortBy(data, () => Math.random() - Math.random()).slice(
@@ -65,14 +51,16 @@ export default function Main() {
   }, []);
 
   const filter = (input: string) => {
+    const string = new RegExp(input,'g');
+    
     if (_.isEmpty(input)) {
       setFiltered(cities);
     } else {
-      const newCities = _.filter(cities, (item) => item.name.toLocaleLowerCase().includes(input.toLocaleLowerCase()));
+      const newCities = _.filter(cities, (item) => string.test(item.name));
       setFiltered(newCities);
     }
   };
-  useEffect(() => {}, [filtered]);
+  
   const selectCity = (item: CityItemProps) => {
     setSelectedCity(item)
   }
@@ -149,9 +137,20 @@ const SidebarContent = ({selectCity,onFilter, cities, onClose, ...rest }: Sideba
           <Search onFilter={onFilter} />
         </Box>
         </Box>
-        {cities.map((city) => (
-          <NavItem onClick={()=> select(city)} item={city} key={city.name}>{city.name}</NavItem>
-        ))}
+        {
+          _.isEmpty(cities)?(
+            <Box px='auto' justifyContent={'center'} alignItems={'center'}>
+              <Text alignSelf={'center'} mx='auto'>No tiem found</Text>
+            </Box>
+          ):(
+            <Box>
+            {cities.map((city) => (
+              <NavItem onClick={()=> {onClose(); select(city)}} item={city} key={city.name}>{city.name}</NavItem>
+            ))}
+            </Box>
+          )
+        }
+        
       </Flex>
     </Box>
   );

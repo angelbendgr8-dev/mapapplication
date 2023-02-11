@@ -1,7 +1,7 @@
 import { Box, Flex, IconButton, Text, useDisclosure } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import mapboxgl, { Map } from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import _ from "lodash";
 import moment from "moment";
 import { BsFillInfoCircleFill } from "react-icons/bs";
@@ -17,7 +17,6 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
@@ -36,7 +35,16 @@ function InitialFocus({ open, onClose, weather, name }) {
   console.log(weather);
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
+  const [today, setToday] = useState({});
+  const [tomorrow, setTomorrow] = useState({});
 
+  useEffect(() => {
+    if (weather) {
+      setToday(weather[0]);
+      setTomorrow(weather[1]);
+    }
+  }, [weather]);
+  console.log(today)
   return (
     <>
       {/* <Button onClick={onOpen}>Open Modal</Button>
@@ -48,10 +56,11 @@ function InitialFocus({ open, onClose, weather, name }) {
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={open}
+        
         onClose={onClose}
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent p='8'>
           <ModalHeader>{name} weather</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
@@ -60,62 +69,53 @@ function InitialFocus({ open, onClose, weather, name }) {
               justifyItems="center"
               alignItems="center"
             >
-              <Box borderRadius={5} bg="aliceblue" m="4" p="5">
-               
+              <Box borderRadius={5} bg="aliceblue" m="2" p="2">
                 <TableContainer>
                   <Table variant="simple">
-                    <TableCaption>
-                      Today
-                    </TableCaption>
+                    <TableCaption>Today</TableCaption>
                     <Thead>
                       <Tr>
-                        <Th>title</Th>
-                        <Th>value</Th>
+                        <Th>Title</Th>
+                        <Th>Value</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
                       <Tr>
-                        <Td>inches</Td>
-                        
-                        <Td isNumeric>25.4</Td>
+                        <Td>Condition</Td>
+
+                        <Td>{today?.conditions}</Td>
                       </Tr>
                       <Tr>
-                        <Td>feet</Td>
-                       
-                        <Td isNumeric>30.48</Td>
+                        <Td>Description</Td>
+
+                        <Td>{today?.description}</Td>
                       </Tr>
-                     
                     </Tbody>
-                    
                   </Table>
                 </TableContainer>
               </Box>
-              <Box borderRadius={5} bg='darkcyan' m="4" p="5">
-              <TableContainer>
-                  <Table variant="simple">
-                    <TableCaption>
-                      Tomorrow
-                    </TableCaption>
-                    <Thead>
+              <Box borderRadius={5} bg="darkcyan" m="2" p="2">
+                <TableContainer color='white'>
+                  <Table variant="simple"  color='white'>
+                    <TableCaption>Tomorrow</TableCaption>
+                    <Thead  color='white'>
                       <Tr>
                         <Th>title</Th>
                         <Th>value</Th>
                       </Tr>
                     </Thead>
-                    <Tbody>
+                    <Tbody color='white'>
                       <Tr>
-                        <Td>inches</Td>
-                        
-                        <Td isNumeric>25.4</Td>
+                        <Td>Condition</Td>
+
+                        <Td >{tomorrow?.conditions}</Td>
                       </Tr>
                       <Tr>
-                        <Td>feet</Td>
-                       
-                        <Td isNumeric>30.48</Td>
+                        <Td>Description</Td>
+
+                        <Td>{tomorrow?.description}</Td>
                       </Tr>
-                     
                     </Tbody>
-                    
                   </Table>
                 </TableContainer>
               </Box>
@@ -132,37 +132,35 @@ export default function Maps({ item }) {
   const map = useRef();
   const [lng, setLng] = useState(3.406448);
   const [lat, setLat] = useState(6.465422);
-  const [zoom, setZoom] = useState(9);
+  const [zoom] = useState(9);
   const [weatherData, setweatherData] = useState({});
 
   useEffect(() => {
     // if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map(
-      {
-        container: mapContainer.current,
-        style: "mapbox://styles/mapbox/streets-v12",
-        center: [lng, lat],
+    console.log("hello");
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: [lng, lat],
 
-        zoom: zoom,
-      },
-      [lng, lat]
-    );
+      zoom: zoom,
+    });
     // console.log(mapContainer.current)
   });
   const getWeather = useCallback(async (latitude, longitude) => {
     const time = moment();
-    const today = time.format("yyyy-M-d");
-    const tomorrow = time.add(1, "day").format("yyyy-M-d");
+    const today = time.format("YYYY-MM-DD");
+    const tomorrow = time.add(1, "day").format("YYYY-MM-DD");
     console.log(tomorrow);
     const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}/${today}/${tomorrow}?key=6GWRA4LXKXNSZ7LZKKLL9C8MF`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
-        // const { days } = json;
-        console.log(json);
-        // setweatherData(days);
-      })
-      .catch((err) => console.error("error:" + err));
+    // fetch(url)
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     const { days } = json;
+    //     console.log(json);
+    //     setweatherData(days);
+    //   })
+    //   .catch((err) => console.error("error:" + err));
   }, []);
 
   useEffect(() => {
@@ -171,7 +169,7 @@ export default function Maps({ item }) {
       setLat(item.lat);
       getWeather(item.lat, item.lng);
     }
-  }, [item]);
+  }, [item, getWeather]);
 
   return (
     <Box>
@@ -196,13 +194,17 @@ export default function Maps({ item }) {
         </Box>
       ) : (
         <Box flexDirection={"column"}>
-          <IconButton
-            onClick={onOpen}
-            size="md"
-            variant="ghost"
-            aria-label="open menu"
-            icon={<BsFillInfoCircleFill />}
-          />
+          <Box>
+            <IconButton
+              onClick={onOpen}
+              size="md"
+              colorScheme="blue"
+              aria-label="Weather Info"
+              variant="ghost"
+              icon={<BsFillInfoCircleFill />}
+            />
+            <Text>Check Weather</Text>
+          </Box>
 
           <Box ref={mapContainer} height={"600"} />
         </Box>
