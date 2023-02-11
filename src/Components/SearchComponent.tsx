@@ -20,15 +20,16 @@ const Search = ({onFilter} : SearchProps) =>{
         setValue(e.currentTarget.value);
       }
     useEffect(() => {
-        onFilter(debouncedValue)
+        onFilter(value)
+        console.log(value);
         setLoader(false);
-    }, [debouncedValue,onFilter])
+    }, [debouncedValue])
     
     return (
         <Box>
           <InputGroup>
     
-          <Input  onChange={handleChange} size={'md'} placeholder='Filter Cities' />
+          <Input  onChangeCapture={handleChange} size={'md'} placeholder='Filter Cities' />
           {
             loader && (<InputRightElement children={<Spinner color='green.500' />} />)
           }

@@ -137,7 +137,7 @@ export default function Maps({ item }) {
 
   useEffect(() => {
     // if (map.current) return; // initialize map only once
-    console.log("hello");
+    // console.log("hello");
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
@@ -145,7 +145,7 @@ export default function Maps({ item }) {
 
       zoom: zoom,
     });
-    const marker = new mapboxgl.Marker()
+    new mapboxgl.Marker()
     .setLngLat([lng,lat])
     .addTo(map.current);
     // console.log(mapContainer.current)
@@ -156,14 +156,14 @@ export default function Maps({ item }) {
     const tomorrow = time.add(1, "day").format("YYYY-MM-DD");
     console.log(tomorrow);
     const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}/${today}/${tomorrow}?key=6GWRA4LXKXNSZ7LZKKLL9C8MF`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
-        const { days } = json;
-        console.log(json);
-        setweatherData(days);
-      })
-      .catch((err) => console.error("error:" + err));
+    // fetch(url)
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     const { days } = json;
+    //     console.log(json);
+    //     setweatherData(days);
+    //   })
+    //   .catch((err) => console.error("error:" + err));
   }, []);
 
   useEffect(() => {

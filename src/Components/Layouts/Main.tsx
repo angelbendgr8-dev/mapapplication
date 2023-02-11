@@ -51,12 +51,14 @@ export default function Main() {
   }, []);
 
   const filter = (input: string) => {
+    console.log(input);
     const string = new RegExp(input,'g');
-    
+    console.log(string);
     if (_.isEmpty(input)) {
       setFiltered(cities);
     } else {
       const newCities = _.filter(cities, (item) => string.test(item.name));
+      console.log(newCities);
       setFiltered(newCities);
     }
   };
