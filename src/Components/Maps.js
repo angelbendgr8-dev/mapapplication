@@ -23,6 +23,7 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
+import Map from "react-map-gl";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYW5nZWxiZW5kZ3I4IiwiYSI6ImNsZHg4cXFudjBldngzcnBranFremQ3NXUifQ.ufbJt9MFsJSp1jt6-w6kbQ";
@@ -44,7 +45,7 @@ function InitialFocus({ open, onClose, weather, name }) {
       setTomorrow(weather[1]);
     }
   }, [weather]);
-  console.log(today)
+  console.log(today);
   return (
     <>
       {/* <Button onClick={onOpen}>Open Modal</Button>
@@ -56,11 +57,10 @@ function InitialFocus({ open, onClose, weather, name }) {
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={open}
-        
         onClose={onClose}
       >
         <ModalOverlay />
-        <ModalContent p='8'>
+        <ModalContent p="8">
           <ModalHeader>{name} weather</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
@@ -95,20 +95,20 @@ function InitialFocus({ open, onClose, weather, name }) {
                 </TableContainer>
               </Box>
               <Box borderRadius={5} bg="darkcyan" m="2" p="2">
-                <TableContainer color='white'>
-                  <Table variant="simple"  color='white'>
+                <TableContainer color="white">
+                  <Table variant="simple" color="white">
                     <TableCaption>Tomorrow</TableCaption>
-                    <Thead  color='white'>
+                    <Thead color="white">
                       <Tr>
                         <Th>title</Th>
                         <Th>value</Th>
                       </Tr>
                     </Thead>
-                    <Tbody color='white'>
+                    <Tbody color="white">
                       <Tr>
                         <Td>Condition</Td>
 
-                        <Td >{tomorrow?.conditions}</Td>
+                        <Td>{tomorrow?.conditions}</Td>
                       </Tr>
                       <Tr>
                         <Td>Description</Td>
@@ -145,9 +145,7 @@ export default function Maps({ item }) {
 
       zoom: zoom,
     });
-    new mapboxgl.Marker()
-    .setLngLat([lng,lat])
-    .addTo(map.current);
+    new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map.current);
     // console.log(mapContainer.current)
   });
   const getWeather = useCallback(async (latitude, longitude) => {
@@ -156,21 +154,21 @@ export default function Maps({ item }) {
     const tomorrow = time.add(1, "day").format("YYYY-MM-DD");
     console.log(tomorrow);
     const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}/${today}/${tomorrow}?key=6GWRA4LXKXNSZ7LZKKLL9C8MF`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
-        const { days } = json;
-        console.log(json);
-        setweatherData(days);
-      })
-      .catch((err) => console.error("error:" + err));
+    // fetch(url)
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     const { days } = json;
+    //     console.log(json);
+    //     setweatherData(days);
+    //   })
+    //   .catch((err) => console.error("error:" + err));
   }, []);
 
   useEffect(() => {
     if (item) {
-      // setLng(item.lng);
-      // setLat(item.lat);
-      map.current.setCenter([item.lng,item.lat])
+      setLng(item.lng);
+      setLat(item.lat);
+      // map.current.setCenter([item.lng, item.lat]);
       getWeather(item.lat, item.lng);
     }
   }, [item, getWeather]);
@@ -185,20 +183,15 @@ export default function Maps({ item }) {
       />
       {_.isEmpty(item) ? (
         <Box>
-          {/* <Button onClick={onOpen} colorScheme="blue">
-            <IconButton
-              size="lg"
-              variant="ghost"
-              aria-label="open menu"
-              icon={<BsFillInfoCircleFill />}
-            />
-          </Button> */}
-
           <Box ref={mapContainer} height={"600"} />
         </Box>
       ) : (
         <Box flexDirection={"column"}>
-          <Flex flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'}>
+          <Flex
+            flexDirection={"row"}
+            justifyContent={"flex-start"}
+            alignItems={"center"}
+          >
             <IconButton
               onClick={onOpen}
               size="md"
