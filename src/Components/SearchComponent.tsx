@@ -1,5 +1,5 @@
 import { Box, FlexProps, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import { Spinner } from '@chakra-ui/react'
 
 import { useDebounce } from 'usehooks-ts'
@@ -19,9 +19,10 @@ const Search = ({onFilter} : SearchProps) =>{
         setLoader(true)
         setValue(e.currentTarget.value);
       }
+    
+    
     useEffect(() => {
-        onFilter(value)
-        console.log(value);
+      onFilter(value)
         setLoader(false);
     }, [debouncedValue])
     

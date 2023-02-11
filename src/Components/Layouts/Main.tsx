@@ -50,6 +50,7 @@ export default function Main() {
     setFiltered(temp)
   }, []);
 
+  
   const filter = (input: string) => {
     console.log(input);
     const string = new RegExp(input,'g');

@@ -136,7 +136,7 @@ export default function Maps({ item }) {
   const [weatherData, setweatherData] = useState({});
 
   useEffect(() => {
-    // if (map.current) return; // initialize map only once
+    // if (map.current && map.current.getCenter().lng === lng) return; // initialize map only once
     // console.log("hello");
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -156,21 +156,21 @@ export default function Maps({ item }) {
     const tomorrow = time.add(1, "day").format("YYYY-MM-DD");
     console.log(tomorrow);
     const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}/${today}/${tomorrow}?key=6GWRA4LXKXNSZ7LZKKLL9C8MF`;
-    // fetch(url)
-    //   .then((res) => res.json())
-    //   .then((json) => {
-    //     const { days } = json;
-    //     console.log(json);
-    //     setweatherData(days);
-    //   })
-    //   .catch((err) => console.error("error:" + err));
+    fetch(url)
+      .then((res) => res.json())
+      .then((json) => {
+        const { days } = json;
+        console.log(json);
+        setweatherData(days);
+      })
+      .catch((err) => console.error("error:" + err));
   }, []);
 
   useEffect(() => {
     if (item) {
-      setLng(item.lng);
-      setLat(item.lat);
-     
+      // setLng(item.lng);
+      // setLat(item.lat);
+      map.current.setCenter([item.lng,item.lat])
       getWeather(item.lat, item.lng);
     }
   }, [item, getWeather]);
