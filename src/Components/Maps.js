@@ -153,14 +153,14 @@ export default function Maps({ item }) {
     const tomorrow = time.add(1, "day").format("YYYY-MM-DD");
     console.log(tomorrow);
     const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}/${today}/${tomorrow}?key=6GWRA4LXKXNSZ7LZKKLL9C8MF`;
-    // fetch(url)
-    //   .then((res) => res.json())
-    //   .then((json) => {
-    //     const { days } = json;
-    //     console.log(json);
-    //     setweatherData(days);
-    //   })
-    //   .catch((err) => console.error("error:" + err));
+    fetch(url)
+      .then((res) => res.json())
+      .then((json) => {
+        const { days } = json;
+        console.log(json);
+        setweatherData(days);
+      })
+      .catch((err) => console.error("error:" + err));
   }, []);
 
   useEffect(() => {
@@ -194,7 +194,7 @@ export default function Maps({ item }) {
         </Box>
       ) : (
         <Box flexDirection={"column"}>
-          <Box>
+          <Flex flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'}>
             <IconButton
               onClick={onOpen}
               size="md"
@@ -204,7 +204,7 @@ export default function Maps({ item }) {
               icon={<BsFillInfoCircleFill />}
             />
             <Text>Check Weather</Text>
-          </Box>
+          </Flex>
 
           <Box ref={mapContainer} height={"600"} />
         </Box>
